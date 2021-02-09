@@ -1,7 +1,9 @@
+const URL = 'http://localhost';
+
 module.exports = {
   title: 'My Site',
   tagline: 'The tagline of my site',
-  url: 'https://your-docusaurus-test-site.com',
+  url: URL,
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
@@ -16,6 +18,13 @@ module.exports = {
         src: 'img/logo.svg',
       },
       items: [
+        {
+          to: `${URL}/dynamic/pages/test.php`,
+          activeBasePath: 'dynamic/pages',
+          label: 'Dynamic Page',
+          position: 'left',
+          target: '_self',
+        },
         {
           to: 'docs/',
           activeBasePath: 'docs',
