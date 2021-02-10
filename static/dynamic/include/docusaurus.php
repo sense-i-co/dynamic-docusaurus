@@ -21,11 +21,8 @@
     $start_idx = $start_idx + strpos($temp_page, "class=") + 7;
     $generated_page = substr_replace($generated_page, "navbar__link--active ", $start_idx, 0);
 
-    // remove page scripts
-    $generated_page = preg_replace("/<link rel=\"preload\" href=\"(.)+\" as=\"script\">/", "", $generated_page);
-
     echo $generated_page;
-    echo "<div class=\"main-wrapper\">";
+    echo "<div id=\"dynamic-content\" class=\"main-wrapper\">";
   }
 
   function end_docusaurus_page() {
@@ -36,8 +33,13 @@
     $start_idx = strpos($template_page, "<footer");
     $generated_page = substr($template_page, $start_idx);
 
-    // remove page scripts
-    $generated_page = preg_replace("/<script src=\"(.)+\"><\/script>/", "", $generated_page);
+    // add global variables and page capture script
+    $start_idx = strpos($generated_page, "<script");
+    $generated_page = substr_replace($generated_page, "<script>var DYNAMIC_DOCUSAURUS_CONTENT;</script><script src=\"/dynamic/scripts/page-capture.js\"></script>", $start_idx, 0);
+
+    // add page generate script
+    $start_idx = strrpos($generated_page, "</script>") + 9;
+    $generated_page = substr_replace($generated_page, "<script src=\"/dynamic/scripts/page-generate.js\"></script>", $start_idx, 0);
     
     echo "</div>";
     echo $generated_page;
