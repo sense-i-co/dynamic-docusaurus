@@ -38,7 +38,7 @@
 
     // add page generate script
     $start_idx = strrpos($generated_page, "</script>") + 9;
-    $generated_page = substr_replace($generated_page, "<script src=\"/dynamic/scripts/page-generate.js\"></script>", $start_idx, 0);
+    $generated_page = substr_replace($generated_page, "<script src=\"/dynamic/scripts/page-restore.js\"></script>", $start_idx, 0);
     
     echo "</div>";
     echo $generated_page;

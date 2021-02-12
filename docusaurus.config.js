@@ -20,7 +20,6 @@ module.exports = {
       items: [
         {
           to: `${URL}/dynamic/pages/test.php`,
-          activeBasePath: 'dynamic/pages',
           label: 'Dynamic Page',
           position: 'left',
           target: '_self',
