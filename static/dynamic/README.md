@@ -55,6 +55,58 @@ section below. To resolve breaking changes, read this section to understand how 
 and the potential points of failure. Systematically working through these implementation notes should
 uncover the changes that have caused the extension to break.
 
+## Usage
+To add a new dynamic PHP page for your website, create a new `page.php` file (where _page_ is replaced
+with the name of your page) within the `static/dynamic/pages/` directory.
+
+This file (`static/dynamic/pages/page.php`) should have the following structure:
+
+```php
+<?php
+  require '../include/docusaurus.php';
+  $DOCUSAURUS_PAGE_TITLE = "Page Title";
+  $DOCUSAURUS_PAGE_DESCRIPTION = "Page Description";
+?>
+
+<?php start_docusaurus_page(); ?>
+
+<main>
+  Page Content
+</main>
+
+<?php end_docusaurus_page(); ?>
+```
+
+To add a link to your new page within Docusaurus's navigation system, simply add an entry as presented below
+to `navbar.items` property in `docusaurus.config.js`:
+
+```javascript
+module.exports = {
+  // ...
+  themeConfig: {
+    navbar: {
+      // ...
+      items: [
+        // ...
+        {
+          to: `${URL}/dynamic/pages/page.php`,
+          label: 'Page Title',
+          position: 'left',
+          target: '_self',
+        },
+        // ...
+      ],
+    },
+    // ...
+  },
+  // ...
+};
+```
+
+**Note**:
+- `to` must be an absolute URL (e.g. "https://www.mysite.co.za/dynamic/pages/page.php")
+- `target` must be provided and set to "_self"
+
 ## Implementation
 To integrate dynamic PHP pages within the Docusaurus framework (designed for static content), some
 sneeky (and non-optimal) workarounds have been employed.
@@ -112,58 +164,6 @@ finishing running (i.e. before `page-restore.js` executes):
 - `<title data-react-helmet="true"> ... | ... </title>` - containing the page title
 - `<meta data-react-helmet="true" property="og:title" content=" ... | ... ">` - containing the page title
 - `<footer> ... </footer>` - containing the page footer
-
-## Usage
-To add a new dynamic PHP page for your website, create a new `page.php` file (where _page_ is replaced
-with the name of your page) within the `static/dynamic/pages/` directory.
-
-This file (`static/dynamic/pages/page.php`) should have the following structure:
-
-```php
-<?php
-  require '../include/docusaurus.php';
-  $DOCUSAURUS_PAGE_TITLE = "Page Title";
-  $DOCUSAURUS_PAGE_DESCRIPTION = "Page Description";
-?>
-
-<?php start_docusaurus_page(); ?>
-
-<main>
-  Page Content
-</main>
-
-<?php end_docusaurus_page(); ?>
-```
-
-To add a link to your new page within Docusaurus's navigation system, simply add an entry as presented below
-to `navbar.items` property in `docusaurus.config.js`:
-
-```javascript
-module.exports = {
-  // ...
-  themeConfig: {
-    navbar: {
-      // ...
-      items: [
-        // ...
-        {
-          to: `${URL}/dynamic/pages/page.php`,
-          label: 'Page Title',
-          position: 'left',
-          target: '_self',
-        },
-        // ...
-      ],
-    },
-    // ...
-  },
-  // ...
-};
-```
-
-**Note**:
-- `to` must be an absolute URL (e.g. "https://www.mysite.co.za/dynamic/pages/page.php")
-- `target` must be provided and set to "_self"
 
 ## Limitations
 
