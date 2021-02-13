@@ -5,7 +5,7 @@ requires some workarounds and limitations. These limitations are listed in the [
 section.
 
 Overall, this extension effectively allows for PHP pages to be embedded within the default Docusaurus 
-page layout and be accessed in the same way as normal (static) pages, from the navigation bar.
+page layout and be accessed, in the same way as normal (static) pages, from the navigation bar.
 
 ## Installation
 To install the extension, simply copy the entire `dynamic/` folder into the `static/` directory of 
