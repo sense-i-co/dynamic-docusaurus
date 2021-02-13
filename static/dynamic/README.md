@@ -168,13 +168,13 @@ module.exports = {
 
 ### Dynamic Content Previews Require Build
 During development, dynamic pages cannot be viewed when running the website with the `yarn start` or 
-`npm run start` commands. The website must be fully build using the `yarn build` command and then the build
-output (in `build/`) must be copied to server set up to run PHP. For example, one could use either WAMP or
+`npm run start` commands. The website must be fully built using the `yarn build` command and then the build
+output (in `build/`) must be copied to a server set up to run PHP. For example, one could use either WAMP or
 XAMPP server during development to preview dynamic content.
 
 ### Cannot Host Using GitHub Pages
 Since our Docusaurus website now contains dynamic content, we are no longer able to make use of the free,
-static hosting offered by GitHub pages. Instead, website content must be manually hosted by an external 
+static hosting offered by GitHub Pages. Instead, website content must be manually hosted by an external 
 server provider capable of serving PHP content.
 
 ### Dynamic Pages Require Reload
