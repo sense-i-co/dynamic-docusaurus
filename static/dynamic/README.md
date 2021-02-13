@@ -1,6 +1,39 @@
 # Docusaurus Extension: Dynamic Content
+The dynamic content extension enables the integration of PHP pages within Docusaurus. Docusaurus was
+originally designed to only work with static content and so extending it to accept dynamic content
+requires some workarounds and limitations. These limitations are listed [here](#Limitations).
+
+Overall, this extension effectively allows for PHP pages to be embedded within the default Docusaurus 
+page layout and be accessed in the same way as normal (static) pages, from the navigation bar.
 
 ## Installation
+To install the extension, simply copy the entire `dynamic/` folder into the `static/` directory of 
+your Docusaurus website. 
+
+The resulting directory tree should be as follows:
+
+```
+static/
+└── dynamic/
+    ├── include/
+    │   └── docusaurus.php
+    ├── pages/
+    ├── scripts/
+    │   ├── page-capture.js
+    │   └── page-restore.js
+    └── README.md
+```
+
+## Configuration
+The only configuration required is to change the constants declared at the top of the 
+`static/dynamic/include/docusaurus.php` file.
+
+These constants are as follows:
+- `DOCUSAURUS_SITE_TITLE` - set this to the title for your website (also declared as `title` in 
+`docusaurus.config.js`).
+- `DOCUSAURUS_TEMPLATE_FILE` - set this to the path for a basic static page on your website generated 
+by Docusaurus (the default is `../../index.html` which you shouldn't need to change unless you have 
+special circustamces, e.g., index.html does not exist for your website).
 
 ## Compatibility
 
@@ -73,12 +106,78 @@ before page generation):
 - `<footer> ... </footer>` - containing the page footer
 
 The following elements are expected to be present (exactly as below) after Docusaurus's scripts 
-finishing run (i.e. before `page-restore.js` executes):
+finishing running (i.e. before `page-restore.js` executes):
 - `<div id="__docusaurus"> ... </div>` - containing the entire Docusaurus page structure
 - `<title data-react-helmet="true"> ... | ... </title>` - containing the page title
 - `<meta data-react-helmet="true" property="og:title" content=" ... | ... ">` - containing the page title
 - `<footer> ... </footer>` - containing the page footer
 
 ## Usage
+To add a new dynamic PHP page for your website, create a new `page.php` file (where _page_ is replaced
+with the name of your page) within the `static/dynamic/pages/` directory.
 
-## Example
+This file (`static/dynamic/pages/page.php`) should have the following structure:
+
+```php
+<?php
+  require '../include/docusaurus.php';
+  $DOCUSAURUS_PAGE_TITLE = "Page Title";
+  $DOCUSAURUS_PAGE_DESCRIPTION = "Page Description";
+?>
+
+<?php start_docusaurus_page(); ?>
+
+<main>
+  Page Content
+</main>
+
+<?php end_docusaurus_page(); ?>
+```
+
+To add a link to your new page within Docusaurus's navigation system, simply add an entry as presented below
+to `navbar.items` property in `docusaurus.config.js`:
+
+```javascript
+module.exports = {
+  // ...
+  themeConfig: {
+    navbar: {
+      // ...
+      items: [
+        // ...
+        {
+          to: `${URL}/dynamic/pages/page.php`,
+          label: 'Page Title',
+          position: 'left',
+          target: '_self',
+        },
+        // ...
+      ],
+    },
+    // ...
+  },
+  // ...
+};
+```
+
+**Note**:
+- `to` must be an absolute URL (e.g. "https://www.mysite.co.za/dynamic/pages/page.php")
+- `target` must be provided and set to "_self"
+
+## Limitations
+
+### Dynamic Content Previews Require Build
+During development, dynamic pages cannot be viewed when running the website with the `yarn start` or 
+`npm run start` commands. The website must be fully build using the `yarn build` command and then the build
+output (in `build/`) must be copied to server set up to run PHP. For example, one could use either WAMP or
+XAMPP server during development to preview dynamic content.
+
+### Cannot Host Using GitHub Pages
+Since our Docusaurus website now contains dynamic content, we are no longer able to make use of the free,
+static hosting offered by GitHub pages. Instead, website content must be manually hosted by an external 
+server provider capable of serving PHP content.
+
+### Dynamic Pages Require Reload
+One other small side effect of using this extension is that Docusaurus is no longer able to provide an entirely
+seamless browsing experience with no page reloads (implemented using React Router). As mentioned in the
+[Implementation](#Implementation) section, switching to a dynamic page will now trigger a page reload.

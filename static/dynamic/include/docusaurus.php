@@ -1,11 +1,10 @@
 <?php
-  $DOCUSAURUS_SITE_TITLE = "My Site";
-  $DOCUSAURUS_TEMPLATE_FILE = "../../index.html";
+  define("DOCUSAURUS_SITE_TITLE",     "My Site");
+  define("DOCUSAURUS_TEMPLATE_FILE",  "../../index.html");
 
   function start_docusaurus_page() {
-    global $DOCUSAURUS_SITE_TITLE, $DOCUSAURUS_TEMPLATE_FILE;
     global $DOCUSAURUS_PAGE_TITLE, $DOCUSAURUS_PAGE_DESCRIPTION;
-    $template_page = file_get_contents($DOCUSAURUS_TEMPLATE_FILE);
+    $template_page = file_get_contents(DOCUSAURUS_TEMPLATE_FILE);
 
     // select HTML before start of page content
     $start_idx = 0;
@@ -13,8 +12,8 @@
     $generated_page = substr($template_page, $start_idx, $end_idx-$start_idx);
 
     // set page title
-    $generated_page = preg_replace("/<title data-react-helmet=\"true\">(.+)?\|(.+)?<\/title>/", "<title id=\"dynamic-title\" data-react-helmet=\"true\">" . $DOCUSAURUS_PAGE_TITLE . " | " . $DOCUSAURUS_SITE_TITLE . "</title>", $generated_page);
-    $generated_page = preg_replace("/<meta data-react-helmet=\"true\" property=\"og:title\" content=\"(.+)?\|([^>]+)?\">/", "<meta data-react-helmet=\"true\" property=\"og:title\" content=\"" . $DOCUSAURUS_PAGE_TITLE . " | " . $DOCUSAURUS_SITE_TITLE . "\">", $generated_page);
+    $generated_page = preg_replace("/<title data-react-helmet=\"true\">(.+)?\|(.+)?<\/title>/", "<title id=\"dynamic-title\" data-react-helmet=\"true\">" . $DOCUSAURUS_PAGE_TITLE . " | " . DOCUSAURUS_SITE_TITLE . "</title>", $generated_page);
+    $generated_page = preg_replace("/<meta data-react-helmet=\"true\" property=\"og:title\" content=\"(.+)?\|([^>]+)?\">/", "<meta data-react-helmet=\"true\" property=\"og:title\" content=\"" . $DOCUSAURUS_PAGE_TITLE . " | " . DOCUSAURUS_SITE_TITLE . "\">", $generated_page);
 
     // set page description
     $generated_page = preg_replace("/<meta data-react-helmet=\"true\" name=\"description\" content=\"([^>]+)?\">/", "<meta id=\"dynamic-description\" data-react-helmet=\"true\" name=\"description\" content=\"" . $DOCUSAURUS_PAGE_DESCRIPTION . "\">", $generated_page);
@@ -25,8 +24,7 @@
   }
 
   function end_docusaurus_page() {
-    global $DOCUSAURUS_SITE_TITLE, $DOCUSAURUS_TEMPLATE_FILE;
-    $template_page = file_get_contents($DOCUSAURUS_TEMPLATE_FILE);
+    $template_page = file_get_contents(DOCUSAURUS_TEMPLATE_FILE);
 
     // select HTML after end of page content
     $start_idx = strpos($template_page, "<footer");
