@@ -1,7 +1,8 @@
 # Docusaurus Extension: Dynamic Content
 The dynamic content extension enables the integration of PHP pages within Docusaurus. Docusaurus was
 originally designed to only work with static content and so extending it to accept dynamic content
-requires some workarounds and limitations. These limitations are listed [here](#Limitations).
+requires some workarounds and limitations. These limitations are listed in the [Limitations](#Limitations)
+section.
 
 Overall, this extension effectively allows for PHP pages to be embedded within the default Docusaurus 
 page layout and be accessed in the same way as normal (static) pages, from the navigation bar.
